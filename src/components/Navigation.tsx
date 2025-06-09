@@ -15,16 +15,16 @@ const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-purple-200 shadow-lg">
       <div className="max-w-md mx-auto px-4">
-        <div className="flex justify-around items-center py-2">
+        <div className="flex justify-around items-center py-3">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+              className={`nav-item ${activeTab === item.id ? 'active' : 'text-purple-600 hover:text-purple-700'}`}
             >
-              <item.icon size={20} />
+              <item.icon size={22} />
               <span className="text-xs font-medium">{item.label}</span>
             </button>
           ))}

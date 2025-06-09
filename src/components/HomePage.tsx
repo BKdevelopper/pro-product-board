@@ -30,7 +30,7 @@ const HomePage = ({ products }: HomePageProps) => {
     return (
       <button
         onClick={() => openUrl(url)}
-        className="flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+        className="flex items-center gap-1 text-purple-600 hover:text-purple-700 transition-colors font-medium"
       >
         <span className="truncate max-w-[120px]">{platform}</span>
         <ExternalLink size={14} />
@@ -42,26 +42,26 @@ const HomePage = ({ products }: HomePageProps) => {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
           <Input
             placeholder="Rechercher par numéro de série..."
             value={searchId}
             onChange={(e) => setSearchId(e.target.value)}
-            className="pl-10"
+            className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
           />
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
           <Input
             placeholder="Rechercher par emplacement..."
             value={searchLocation}
             onChange={(e) => setSearchLocation(e.target.value)}
-            className="pl-10"
+            className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
           />
         </div>
       </div>
 
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-purple-100">
         <div className="overflow-x-auto">
           <table className="product-table">
             <thead>
@@ -83,12 +83,12 @@ const HomePage = ({ products }: HomePageProps) => {
               ) : (
                 filteredProducts.map((product) => (
                   <tr key={product.id}>
-                    <td className="font-medium">{product.id}</td>
+                    <td className="font-semibold text-purple-900">{product.id}</td>
                     <td>{formatUrlDisplay(product.url1, "Vinted")}</td>
                     <td>{formatUrlDisplay(product.url2, "La Chiffo")}</td>
                     <td>{formatUrlDisplay(product.url3, "LabelEmmaus")}</td>
                     <td>
-                      <span className="bg-secondary px-2 py-1 rounded text-sm">
+                      <span className="gradient-light px-3 py-1 rounded-full text-sm font-medium text-purple-700">
                         {product.emplacement}
                       </span>
                     </td>
@@ -100,7 +100,7 @@ const HomePage = ({ products }: HomePageProps) => {
         </div>
       </div>
 
-      <div className="text-sm text-muted-foreground">
+      <div className="text-sm text-purple-600 font-medium">
         Total: {filteredProducts.length} produit(s)
       </div>
     </div>

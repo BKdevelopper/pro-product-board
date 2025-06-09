@@ -54,16 +54,18 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 text-foreground flex flex-col">
       <div className="flex-1 p-6 pb-24">
         <div className="max-w-7xl mx-auto">
           <header className="mb-8">
-            <h1 className="text-3xl font-bold text-primary mb-2">
-              Gestion des Produits
-            </h1>
-            <p className="text-muted-foreground">
-              Gérez votre inventaire et vos liens de vente en ligne
-            </p>
+            <div className="gradient-card rounded-2xl p-8 mb-6 shadow-xl">
+              <h1 className="text-4xl font-bold mb-2">
+                Gestion des Produits
+              </h1>
+              <p className="text-purple-100 text-lg">
+                Gérez votre inventaire et vos liens de vente en ligne de manière professionnelle
+              </p>
+            </div>
           </header>
           
           {renderContent()}
