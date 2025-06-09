@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Search, Edit3, Save, X } from "lucide-react";
 import { Product } from "@/types/Product";
@@ -14,11 +15,13 @@ interface EditPageProps {
 const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
   const { toast } = useToast();
   const [searchSerialID, setSearchSerialID] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [editFormData, setEditFormData] = useState<Product | null>(null);
 
   const filteredProducts = products.filter(product => 
-    product.serialID.toLowerCase().includes(searchSerialID.toLowerCase())
+    product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
+    product.emplacement.toLowerCase().includes(searchLocation.toLowerCase())
   );
 
   const startEditing = (product: Product) => {
@@ -63,14 +66,25 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
         </div>
       </div>
 
-      <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
-        <Input
-          placeholder="Rechercher par numéro de série..."
-          value={searchSerialID}
-          onChange={(e) => setSearchSerialID(e.target.value)}
-          className="pl-10"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Input
+            placeholder="Rechercher par numéro de série..."
+            value={searchSerialID}
+            onChange={(e) => setSearchSerialID(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Input
+            placeholder="Rechercher par emplacement..."
+            value={searchLocation}
+            onChange={(e) => setSearchLocation(e.target.value)}
+            className="pl-10"
+          />
+        </div>
       </div>
 
       <div className="grid gap-4">
@@ -116,7 +130,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                         onChange={(e) => handleEditChange("emplacement", e.target.value)}
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 md:col-span-2">
                       <Label>URL Vinted</Label>
                       <Input
                         type="url"
@@ -124,22 +138,12 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                         onChange={(e) => handleEditChange("url1", e.target.value)}
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label>URL La Chiffo</Label>
-                      <Input
-                        type="url"
-                        value={editFormData.url2}
-                        onChange={(e) => handleEditChange("url2", e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2 md:col-span-2">
-                      <Label>URL LabelEmmaus</Label>
-                      <Input
-                        type="url"
-                        value={editFormData.url3}
-                        onChange={(e) => handleEditChange("url3", e.target.value)}
-                      />
-                    </div>
+                  </div>
+
+                  <div className="bg-purple-50 p-3 rounded-lg">
+                    <p className="text-sm text-purple-700">
+                      <strong>Note :</strong> Les URLs pour La Chiffo et LabelEmmaus sont générées automatiquement basées sur le numéro de série.
+                    </p>
                   </div>
                 </div>
               ) : (
@@ -152,7 +156,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                       </span>
                     </div>
                     <div className="text-sm text-muted-foreground mt-1">
-                      URLs: {[product.url1, product.url2, product.url3].filter(Boolean).length}/3
+                      URL Vinted: {product.url1 ? 'Configurée' : 'Non configurée'}
                     </div>
                   </div>
                   <Button

@@ -15,16 +15,12 @@ const Index = () => {
       id: 1,
       serialID: "P001",
       url1: "https://vinted.fr/product1",
-      url2: "https://lachiffo.fr/product1",
-      url3: "https://labelemmaus.fr/product1",
       emplacement: "A1-B2"
     },
     {
       id: 2,
       serialID: "P002",
-      url1: "https://vinted.fr/product2",
-      url2: "",
-      url3: "https://labelemmaus.fr/product2",
+      url1: "",
       emplacement: "C3-D4"
     }
   ]);
@@ -67,10 +63,17 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           <header className="mb-8">
             <div className="gradient-card rounded-2xl p-8 mb-6 shadow-xl">
-              <h1 className="text-4xl font-bold mb-2">
+              <div className="flex items-center justify-center mb-4">
+                <img 
+                  src="/lovable-uploads/782bfed3-781d-4947-8bfa-7c1e46e08822.png" 
+                  alt="La Chiffo Logo" 
+                  className="h-12"
+                />
+              </div>
+              <h1 className="text-4xl font-bold mb-2 text-center">
                 Gestion des Produits
               </h1>
-              <p className="text-purple-100 text-lg">
+              <p className="text-purple-100 text-lg text-center">
                 Gérez votre inventaire et vos liens de vente en ligne de manière professionnelle
               </p>
             </div>

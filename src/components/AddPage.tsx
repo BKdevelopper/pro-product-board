@@ -16,8 +16,6 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
   const [formData, setFormData] = useState({
     serialID: "",
     url1: "",
-    url2: "",
-    url3: "",
     emplacement: ""
   });
 
@@ -34,7 +32,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
     }
 
     onAddProduct(formData);
-    setFormData({ serialID: "", url1: "", url2: "", url3: "", emplacement: "" });
+    setFormData({ serialID: "", url1: "", emplacement: "" });
     
     toast({
       title: "Succès",
@@ -87,30 +85,6 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="url2" className="text-purple-900 font-semibold">URL La Chiffo</Label>
-            <Input
-              id="url2"
-              type="url"
-              value={formData.url2}
-              onChange={(e) => handleChange("url2", e.target.value)}
-              placeholder="https://lachiffo.fr/..."
-              className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="url3" className="text-purple-900 font-semibold">URL LabelEmmaus</Label>
-            <Input
-              id="url3"
-              type="url"
-              value={formData.url3}
-              onChange={(e) => handleChange("url3", e.target.value)}
-              placeholder="https://labelemmaus.fr/..."
-              className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
-            />
-          </div>
-
-          <div className="space-y-2">
             <Label htmlFor="emplacement" className="text-purple-900 font-semibold">Emplacement en stock *</Label>
             <Input
               id="emplacement"
@@ -120,6 +94,12 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               required
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
             />
+          </div>
+
+          <div className="bg-purple-50 p-4 rounded-lg">
+            <p className="text-sm text-purple-700">
+              <strong>Note :</strong> Les URLs pour La Chiffo et LabelEmmaus seront générées automatiquement basées sur le numéro de série.
+            </p>
           </div>
 
           <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-xl shadow-lg">
