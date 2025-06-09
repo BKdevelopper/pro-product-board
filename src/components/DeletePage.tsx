@@ -92,7 +92,7 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
                   </span>
                 </div>
                 <div className="text-sm text-muted-foreground mt-1">
-                  URLs: {[product.url1, product.url2, product.url3].filter(Boolean).length}/3
+                  URLs: {product.url1 ? '3/3 (Vinted + 2 auto)' : '2/3 (2 auto)'}
                 </div>
               </div>
               <Button
