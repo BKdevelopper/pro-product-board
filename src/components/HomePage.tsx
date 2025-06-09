@@ -9,11 +9,11 @@ interface HomePageProps {
 }
 
 const HomePage = ({ products }: HomePageProps) => {
-  const [searchId, setSearchId] = useState("");
+  const [searchSerialID, setSearchSerialID] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
 
   const filteredProducts = products.filter(product => 
-    product.id.toLowerCase().includes(searchId.toLowerCase()) &&
+    product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
     product.emplacement.toLowerCase().includes(searchLocation.toLowerCase())
   );
 
@@ -45,8 +45,8 @@ const HomePage = ({ products }: HomePageProps) => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
           <Input
             placeholder="Rechercher par numéro de série..."
-            value={searchId}
-            onChange={(e) => setSearchId(e.target.value)}
+            value={searchSerialID}
+            onChange={(e) => setSearchSerialID(e.target.value)}
             className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
           />
         </div>
@@ -83,7 +83,7 @@ const HomePage = ({ products }: HomePageProps) => {
               ) : (
                 filteredProducts.map((product) => (
                   <tr key={product.id}>
-                    <td className="font-semibold text-purple-900">{product.id}</td>
+                    <td className="font-semibold text-purple-900">{product.serialID}</td>
                     <td>{formatUrlDisplay(product.url1, "Vinted")}</td>
                     <td>{formatUrlDisplay(product.url2, "La Chiffo")}</td>
                     <td>{formatUrlDisplay(product.url3, "LabelEmmaus")}</td>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search, Edit3, Save, X } from "lucide-react";
 import { Product } from "@/types/Product";
@@ -14,12 +13,12 @@ interface EditPageProps {
 
 const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
   const { toast } = useToast();
-  const [searchId, setSearchId] = useState("");
+  const [searchSerialID, setSearchSerialID] = useState("");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [editFormData, setEditFormData] = useState<Product | null>(null);
 
   const filteredProducts = products.filter(product => 
-    product.id.toLowerCase().includes(searchId.toLowerCase())
+    product.serialID.toLowerCase().includes(searchSerialID.toLowerCase())
   );
 
   const startEditing = (product: Product) => {
@@ -37,7 +36,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
       onUpdateProduct(editFormData);
       toast({
         title: "Produit mis à jour",
-        description: `Le produit ${editFormData.id} a été modifié avec succès.`,
+        description: `Le produit ${editFormData.serialID} a été modifié avec succès.`,
       });
       setEditingProduct(null);
       setEditFormData(null);
@@ -67,9 +66,9 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
         <Input
-          placeholder="Rechercher par ID..."
-          value={searchId}
-          onChange={(e) => setSearchId(e.target.value)}
+          placeholder="Rechercher par numéro de série..."
+          value={searchSerialID}
+          onChange={(e) => setSearchSerialID(e.target.value)}
           className="pl-10"
         />
       </div>
@@ -89,7 +88,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
               {editingProduct?.id === product.id && editFormData ? (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-medium">Modification de {product.id}</h3>
+                    <h3 className="font-medium">Modification de {product.serialID}</h3>
                     <div className="flex gap-2">
                       <Button size="sm" onClick={saveChanges}>
                         <Save size={16} className="mr-1" />
@@ -106,10 +105,8 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                     <div className="space-y-2">
                       <Label>Numéro de série</Label>
                       <Input
-                        value={editFormData.id}
-                        onChange={(e) => handleEditChange("id", e.target.value)}
-                        disabled
-                        className="bg-muted"
+                        value={editFormData.serialID}
+                        onChange={(e) => handleEditChange("serialID", e.target.value)}
                       />
                     </div>
                     <div className="space-y-2">
@@ -149,7 +146,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <span className="font-medium text-lg">{product.id}</span>
+                      <span className="font-medium text-lg">{product.serialID}</span>
                       <span className="bg-secondary px-2 py-1 rounded text-sm">
                         {product.emplacement}
                       </span>

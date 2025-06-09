@@ -8,13 +8,13 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
 interface AddPageProps {
-  onAddProduct: (product: Product) => void;
+  onAddProduct: (product: Omit<Product, 'id'>) => void;
 }
 
 const AddPage = ({ onAddProduct }: AddPageProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    id: "",
+    serialID: "",
     url1: "",
     url2: "",
     url3: "",
@@ -24,17 +24,17 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.id || !formData.emplacement) {
+    if (!formData.serialID || !formData.emplacement) {
       toast({
         title: "Erreur",
-        description: "L'ID et l'emplacement sont obligatoires",
+        description: "Le numéro de série et l'emplacement sont obligatoires",
         variant: "destructive"
       });
       return;
     }
 
     onAddProduct(formData);
-    setFormData({ id: "", url1: "", url2: "", url3: "", emplacement: "" });
+    setFormData({ serialID: "", url1: "", url2: "", url3: "", emplacement: "" });
     
     toast({
       title: "Succès",
@@ -63,11 +63,11 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="id" className="text-purple-900 font-semibold">Numéro de série *</Label>
+            <Label htmlFor="serialID" className="text-purple-900 font-semibold">Numéro de série *</Label>
             <Input
-              id="id"
-              value={formData.id}
-              onChange={(e) => handleChange("id", e.target.value)}
+              id="serialID"
+              value={formData.serialID}
+              onChange={(e) => handleChange("serialID", e.target.value)}
               placeholder="Ex: P001, SKU123..."
               required
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"

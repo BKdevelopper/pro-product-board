@@ -18,17 +18,17 @@ import {
 
 interface DeletePageProps {
   products: Product[];
-  onDeleteProduct: (id: string) => void;
+  onDeleteProduct: (id: number) => void;
 }
 
 const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
   const { toast } = useToast();
-  const [searchId, setSearchId] = useState("");
+  const [searchSerialID, setSearchSerialID] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
   const filteredProducts = products.filter(product => 
-    product.id.toLowerCase().includes(searchId.toLowerCase())
+    product.serialID.toLowerCase().includes(searchSerialID.toLowerCase())
   );
 
   const handleDeleteClick = (product: Product) => {
@@ -41,7 +41,7 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
       onDeleteProduct(productToDelete.id);
       toast({
         title: "Produit supprimé",
-        description: `Le produit ${productToDelete.id} a été supprimé avec succès.`,
+        description: `Le produit ${productToDelete.serialID} a été supprimé avec succès.`,
       });
       setDeleteDialogOpen(false);
       setProductToDelete(null);
@@ -65,9 +65,9 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
         <Input
-          placeholder="Rechercher par ID..."
-          value={searchId}
-          onChange={(e) => setSearchId(e.target.value)}
+          placeholder="Rechercher par numéro de série..."
+          value={searchSerialID}
+          onChange={(e) => setSearchSerialID(e.target.value)}
           className="pl-10"
         />
       </div>
@@ -86,7 +86,7 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
             >
               <div className="flex-1">
                 <div className="flex items-center gap-3">
-                  <span className="font-medium text-lg">{product.id}</span>
+                  <span className="font-medium text-lg">{product.serialID}</span>
                   <span className="bg-secondary px-2 py-1 rounded text-sm">
                     {product.emplacement}
                   </span>
@@ -116,7 +116,7 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
               Confirmer la suppression
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Êtes-vous sûr de vouloir supprimer le produit "{productToDelete?.id}" ?
+              Êtes-vous sûr de vouloir supprimer le produit "{productToDelete?.serialID}" ?
               Cette action est irréversible.
             </AlertDialogDescription>
           </AlertDialogHeader>

@@ -9,16 +9,19 @@ import { Product } from "@/types/Product";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const [nextId, setNextId] = useState(3); // Counter for auto-incrementing IDs
   const [products, setProducts] = useState<Product[]>([
     {
-      id: "P001",
+      id: 1,
+      serialID: "P001",
       url1: "https://vinted.fr/product1",
       url2: "https://lachiffo.fr/product1",
       url3: "https://labelemmaus.fr/product1",
       emplacement: "A1-B2"
     },
     {
-      id: "P002",
+      id: 2,
+      serialID: "P002",
       url1: "https://vinted.fr/product2",
       url2: "",
       url3: "https://labelemmaus.fr/product2",
@@ -26,11 +29,16 @@ const Index = () => {
     }
   ]);
 
-  const addProduct = (product: Product) => {
-    setProducts(prev => [...prev, product]);
+  const addProduct = (productData: Omit<Product, 'id'>) => {
+    const newProduct: Product = {
+      id: nextId,
+      ...productData
+    };
+    setProducts(prev => [...prev, newProduct]);
+    setNextId(prev => prev + 1);
   };
 
-  const deleteProduct = (id: string) => {
+  const deleteProduct = (id: number) => {
     setProducts(prev => prev.filter(p => p.id !== id));
   };
 
