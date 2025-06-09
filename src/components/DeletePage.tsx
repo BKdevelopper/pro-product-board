@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Search, Trash2, AlertTriangle } from "lucide-react";
+import { Search, Trash2, AlertTriangle, MapPin } from "lucide-react";
 import { Product } from "@/types/Product";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -24,11 +24,13 @@ interface DeletePageProps {
 const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
   const { toast } = useToast();
   const [searchSerialID, setSearchSerialID] = useState("");
+  const [searchEmplacement, setSearchEmplacement] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
   const filteredProducts = products.filter(product => 
-    product.serialID.toLowerCase().includes(searchSerialID.toLowerCase())
+    product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
+    product.emplacement.toLowerCase().includes(searchEmplacement.toLowerCase())
   );
 
   const handleDeleteClick = (product: Product) => {
@@ -62,14 +64,25 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
         </div>
       </div>
 
-      <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
-        <Input
-          placeholder="Rechercher par numéro de série..."
-          value={searchSerialID}
-          onChange={(e) => setSearchSerialID(e.target.value)}
-          className="pl-10"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Input
+            placeholder="Rechercher par numéro de série..."
+            value={searchSerialID}
+            onChange={(e) => setSearchSerialID(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <div className="relative">
+          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Input
+            placeholder="Rechercher par emplacement..."
+            value={searchEmplacement}
+            onChange={(e) => setSearchEmplacement(e.target.value)}
+            className="pl-10"
+          />
+        </div>
       </div>
 
       <div className="grid gap-4">
