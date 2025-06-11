@@ -16,12 +16,15 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
   const { toast } = useToast();
   const [searchSerialID, setSearchSerialID] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
+  const [searchUrl, setSearchUrl] = useState("");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [editFormData, setEditFormData] = useState<Product | null>(null);
 
   const filteredProducts = products.filter(product => 
     product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
-    product.emplacement.toLowerCase().includes(searchLocation.toLowerCase())
+    product.emplacement.toLowerCase().includes(searchLocation.toLowerCase()) &&
+    (product.url1.toLowerCase().includes(searchUrl.toLowerCase()) ||
+     product.url2.toLowerCase().includes(searchUrl.toLowerCase()))
   );
 
   const startEditing = (product: Product) => {
@@ -66,7 +69,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
           <Input
@@ -82,6 +85,15 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
             placeholder="Rechercher par emplacement..."
             value={searchLocation}
             onChange={(e) => setSearchLocation(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Input
+            placeholder="Rechercher par URL..."
+            value={searchUrl}
+            onChange={(e) => setSearchUrl(e.target.value)}
             className="pl-10"
           />
         </div>

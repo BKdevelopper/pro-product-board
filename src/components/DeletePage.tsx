@@ -25,12 +25,15 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
   const { toast } = useToast();
   const [searchSerialID, setSearchSerialID] = useState("");
   const [searchEmplacement, setSearchEmplacement] = useState("");
+  const [searchUrl, setSearchUrl] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
   const filteredProducts = products.filter(product => 
     product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
-    product.emplacement.toLowerCase().includes(searchEmplacement.toLowerCase())
+    product.emplacement.toLowerCase().includes(searchEmplacement.toLowerCase()) &&
+    (product.url1.toLowerCase().includes(searchUrl.toLowerCase()) ||
+     product.url2.toLowerCase().includes(searchUrl.toLowerCase()))
   );
 
   const handleDeleteClick = (product: Product) => {
@@ -64,7 +67,7 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
           <Input
@@ -80,6 +83,15 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
             placeholder="Rechercher par emplacement..."
             value={searchEmplacement}
             onChange={(e) => setSearchEmplacement(e.target.value)}
+            className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
+          />
+        </div>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
+          <Input
+            placeholder="Rechercher par URL..."
+            value={searchUrl}
+            onChange={(e) => setSearchUrl(e.target.value)}
             className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
           />
         </div>
