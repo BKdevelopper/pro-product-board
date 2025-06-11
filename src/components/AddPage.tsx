@@ -61,7 +61,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
       <div className="bg-white rounded-2xl shadow-lg border border-purple-100 p-8">
         <div className="flex items-center gap-4 mb-8">
           <div className="gradient-card p-3 rounded-xl">
-            <Plus className="text-white" size={28} />
+            <Plus className="text-white" size={20} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-purple-900">Ajouter un produit</h2>
