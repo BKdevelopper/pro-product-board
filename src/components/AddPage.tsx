@@ -67,7 +67,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               id="serialID"
               value={formData.serialID}
               onChange={(e) => handleChange("serialID", e.target.value)}
-              placeholder="Ex: P001, SKU123..."
+              placeholder="Ex: P001, SKU123... (optionnel)"
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
             />
           </div>
