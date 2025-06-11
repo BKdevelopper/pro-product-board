@@ -142,7 +142,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                         onChange={(e) => handleEditChange("emplacement", e.target.value)}
                       />
                     </div>
-                    <div className="space-y-2 md:col-span-2">
+                    <div className="space-y-2">
                       <Label>URL Vinted</Label>
                       <Input
                         type="url"
@@ -150,11 +150,19 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                         onChange={(e) => handleEditChange("url1", e.target.value)}
                       />
                     </div>
+                    <div className="space-y-2">
+                      <Label>URL La Chiffo</Label>
+                      <Input
+                        type="url"
+                        value={editFormData.url2}
+                        onChange={(e) => handleEditChange("url2", e.target.value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="bg-purple-50 p-3 rounded-lg">
                     <p className="text-sm text-purple-700">
-                      <strong>Note :</strong> Les URLs pour La Chiffo et LabelEmmaus sont générées automatiquement basées sur le numéro de série.
+                      <strong>Note :</strong> L'URL pour LabelEmmaus est générée automatiquement basée sur le numéro de série.
                     </p>
                   </div>
                 </div>
@@ -168,7 +176,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                       </span>
                     </div>
                     <div className="text-sm text-muted-foreground mt-1">
-                      URL Vinted: {product.url1 ? 'Configurée' : 'Non configurée'}
+                      URLs: {product.url1 ? (product.url2 ? '3/3 (Vinted + La Chiffo + auto)' : '2/3 (Vinted + auto)') : (product.url2 ? '2/3 (La Chiffo + auto)' : '1/3 (auto)')}
                     </div>
                   </div>
                   <Button
