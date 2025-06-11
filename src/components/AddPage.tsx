@@ -23,10 +23,10 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.serialID || !formData.emplacement) {
+    if (!formData.emplacement) {
       toast({
         title: "Erreur",
-        description: "Le numéro de série et l'emplacement sont obligatoires",
+        description: "L'emplacement est obligatoire",
         variant: "destructive"
       });
       return;
@@ -62,13 +62,12 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="serialID" className="text-purple-900 font-semibold">Numéro de série *</Label>
+            <Label htmlFor="serialID" className="text-purple-900 font-semibold">Numéro de série</Label>
             <Input
               id="serialID"
               value={formData.serialID}
               onChange={(e) => handleChange("serialID", e.target.value)}
               placeholder="Ex: P001, SKU123..."
-              required
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
             />
           </div>
@@ -111,7 +110,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
 
           <div className="bg-purple-50 p-4 rounded-lg">
             <p className="text-sm text-purple-700">
-              <strong>Note :</strong> L'URL pour LabelEmmaus sera générée automatiquement basée sur le numéro de série.
+              <strong>Note :</strong> L'URL pour LabelEmmaus sera générée automatiquement basée sur le numéro de série (si fourni).
             </p>
           </div>
 
