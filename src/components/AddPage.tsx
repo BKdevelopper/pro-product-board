@@ -23,7 +23,10 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.emplacement) {
+    console.log("Form submitted with data:", formData);
+    
+    if (!formData.emplacement.trim()) {
+      console.log("Validation failed: emplacement is empty");
       toast({
         title: "Erreur",
         description: "L'emplacement est obligatoire",
@@ -32,7 +35,14 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
       return;
     }
 
-    onAddProduct(formData);
+    console.log("Validation passed, adding product");
+    onAddProduct({
+      serialID: formData.serialID.trim(),
+      url1: formData.url1.trim(),
+      url2: formData.url2.trim(),
+      emplacement: formData.emplacement.trim()
+    });
+    
     setFormData({ serialID: "", url1: "", url2: "", emplacement: "" });
     
     toast({
@@ -42,6 +52,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
   };
 
   const handleChange = (field: keyof typeof formData, value: string) => {
+    console.log(`Field ${field} changed to:`, value);
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -103,7 +114,6 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               value={formData.emplacement}
               onChange={(e) => handleChange("emplacement", e.target.value)}
               placeholder="Ex: A1-B2, Rayon 3..."
-              required
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
             />
           </div>
