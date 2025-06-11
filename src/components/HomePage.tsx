@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Search, ExternalLink } from "lucide-react";
-import { Product, generateLabelEmmausUrl, generateLaChiffoUrl } from "@/types/Product";
+import { Product, generateLabelEmmausUrl } from "@/types/Product";
 import { Input } from "@/components/ui/input";
 
 interface HomePageProps {
@@ -85,7 +85,7 @@ const HomePage = ({ products }: HomePageProps) => {
                   <tr key={product.id}>
                     <td className="font-semibold text-purple-900">{product.serialID}</td>
                     <td>{formatUrlDisplay(product.url1, "Vinted")}</td>
-                    <td>{formatUrlDisplay(generateLaChiffoUrl(product.serialID), "La Chiffo")}</td>
+                    <td>{formatUrlDisplay(product.url2, "La Chiffo")}</td>
                     <td>{formatUrlDisplay(generateLabelEmmausUrl(product.serialID), "LabelEmmaus")}</td>
                     <td>
                       <span className="gradient-light px-3 py-1 rounded-full text-sm font-medium text-purple-700">

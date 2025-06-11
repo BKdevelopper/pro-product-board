@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Search, Trash2, AlertTriangle, MapPin } from "lucide-react";
+import { Search, Trash2, AlertTriangle } from "lucide-react";
 import { Product } from "@/types/Product";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -64,23 +64,23 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
           <Input
             placeholder="Rechercher par numéro de série..."
             value={searchSerialID}
             onChange={(e) => setSearchSerialID(e.target.value)}
-            className="pl-10"
+            className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
           />
         </div>
         <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
           <Input
             placeholder="Rechercher par emplacement..."
             value={searchEmplacement}
             onChange={(e) => setSearchEmplacement(e.target.value)}
-            className="pl-10"
+            className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
           />
         </div>
       </div>
@@ -105,7 +105,7 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
                   </span>
                 </div>
                 <div className="text-sm text-muted-foreground mt-1">
-                  URLs: {product.url1 ? '3/3 (Vinted + 2 auto)' : '2/3 (2 auto)'}
+                  URLs: {product.url1 ? (product.url2 ? '3/3 (Vinted + La Chiffo + auto)' : '2/3 (Vinted + auto)') : (product.url2 ? '2/3 (La Chiffo + auto)' : '1/3 (auto)')}
                 </div>
               </div>
               <Button

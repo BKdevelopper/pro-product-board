@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import HomePage from "@/components/HomePage";
@@ -15,12 +14,14 @@ const Index = () => {
       id: 1,
       serialID: "P001",
       url1: "https://vinted.fr/product1",
+      url2: "https://lachiffo.fr/product1",
       emplacement: "A1-B2"
     },
     {
       id: 2,
       serialID: "P002",
       url1: "",
+      url2: "",
       emplacement: "C3-D4"
     }
   ]);
