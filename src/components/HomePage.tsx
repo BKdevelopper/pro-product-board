@@ -11,10 +11,13 @@ interface HomePageProps {
 const HomePage = ({ products }: HomePageProps) => {
   const [searchSerialID, setSearchSerialID] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
+  const [searchUrl, setSearchUrl] = useState("");
 
   const filteredProducts = products.filter(product => 
     product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
-    product.emplacement.toLowerCase().includes(searchLocation.toLowerCase())
+    product.emplacement.toLowerCase().includes(searchLocation.toLowerCase()) &&
+    (product.url1.toLowerCase().includes(searchUrl.toLowerCase()) ||
+     product.url2.toLowerCase().includes(searchUrl.toLowerCase()))
   );
 
   const openUrl = (url: string) => {
@@ -40,7 +43,7 @@ const HomePage = ({ products }: HomePageProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
           <Input
@@ -56,6 +59,15 @@ const HomePage = ({ products }: HomePageProps) => {
             placeholder="Rechercher par emplacement..."
             value={searchLocation}
             onChange={(e) => setSearchLocation(e.target.value)}
+            className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
+          />
+        </div>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" size={16} />
+          <Input
+            placeholder="Rechercher par URL..."
+            value={searchUrl}
+            onChange={(e) => setSearchUrl(e.target.value)}
             className="pl-10 border-purple-200 focus:border-purple-400 focus:ring-purple-400"
           />
         </div>
