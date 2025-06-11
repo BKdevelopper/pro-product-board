@@ -124,8 +124,8 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
             </p>
           </div>
 
-          <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-xl shadow-lg">
-            <Plus size={18} className="mr-2" />
+          <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 rounded-xl shadow-lg">
+            <Plus size={16} className="mr-2" />
             Ajouter le produit
           </Button>
         </form>
