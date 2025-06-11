@@ -9,5 +9,8 @@ export interface Product {
 
 // URL generation functions
 export const generateLabelEmmausUrl = (serialID: string): string => {
+  if (!serialID || serialID.trim() === '') {
+    return '';
+  }
   return `https://labelemmaus.fr/product?=${serialID}`;
 };

@@ -83,7 +83,7 @@ const HomePage = ({ products }: HomePageProps) => {
               ) : (
                 filteredProducts.map((product) => (
                   <tr key={product.id}>
-                    <td className="font-semibold text-purple-900">{product.serialID}</td>
+                    <td className="font-semibold text-purple-900">{product.serialID || "Non défini"}</td>
                     <td>{formatUrlDisplay(product.url1, "Vinted")}</td>
                     <td>{formatUrlDisplay(product.url2, "La Chiffo")}</td>
                     <td>{formatUrlDisplay(generateLabelEmmausUrl(product.serialID), "LabelEmmaus")}</td>
