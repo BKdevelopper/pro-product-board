@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Product } from "@/types/Product";
@@ -124,7 +123,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
             </p>
           </div>
 
-          <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 rounded-xl shadow-lg">
+          <Button type="submit" className="w-full gradient-card text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition-opacity">
             <Plus size={16} className="mr-2" />
             Ajouter le produit
           </Button>
