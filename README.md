@@ -59,6 +59,13 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- MySQL (base de données)
+- Express (API REST)
+- dotenv (gestion des variables d'environnement)
+
+## Configuration de la base de données MySQL
+
+Pour configurer la base de données MySQL, veuillez consulter le fichier [db/README.md](db/README.md) qui contient toutes les instructions nécessaires.
 
 ## How can I deploy this project?
 
