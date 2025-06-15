@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import HomePage from "@/components/HomePage";
@@ -63,14 +64,14 @@ const Index = () => {
       <div className="flex-1 p-6 pb-24">
         <div className="max-w-7xl mx-auto">
           <header className="mb-8">
+            <div className="flex items-center justify-center mb-4">
+              <img 
+                src="/lovable-uploads/782bfed3-781d-4947-8bfa-7c1e46e08822.png" 
+                alt="La Chiffo Logo" 
+                className="h-12"
+              />
+            </div>
             <div className="gradient-card rounded-2xl p-8 mb-6 shadow-xl">
-              <div className="flex items-center justify-center mb-4">
-                <img 
-                  src="/lovable-uploads/782bfed3-781d-4947-8bfa-7c1e46e08822.png" 
-                  alt="La Chiffo Logo" 
-                  className="h-12"
-                />
-              </div>
               <h1 className="text-4xl font-bold mb-2 text-center">
                 Gestion des Produits
               </h1>
