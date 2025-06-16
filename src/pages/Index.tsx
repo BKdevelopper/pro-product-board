@@ -1,64 +1,43 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import HomePage from "@/components/HomePage";
 import AddPage from "@/components/AddPage";
 import DeletePage from "@/components/DeletePage";
 import EditPage from "@/components/EditPage";
 import { Product } from "@/types/Product";
-import { fetchProducts, deleteProduct as apiDeleteProduct } from "@/lib/api";
-import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
-  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("home");
-  const [isLoading, setIsLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [nextId, setNextId] = useState(3); // Counter for auto-incrementing IDs
+  const [products, setProducts] = useState<Product[]>([
+    {
+      id: 1,
+      serialID: "P001",
+      url1: "https://vinted.fr/product1",
+      url2: "https://lachiffo.fr/product1",
+      emplacement: "A1-B2"
+    },
+    {
+      id: 2,
+      serialID: "P002",
+      url1: "",
+      url2: "",
+      emplacement: "C3-D4"
+    }
+  ]);
 
-  // Charger les produits depuis l'API au chargement de la page
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchProducts();
-        setProducts(data);
-      } catch (error) {
-        console.error("Erreur lors du chargement des produits:", error);
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger les produits depuis la base de données",
-          variant: "destructive"
-        });
-      } finally {
-        setIsLoading(false);
-      }
+  const addProduct = (productData: Omit<Product, 'id'>) => {
+    const newProduct: Product = {
+      id: nextId,
+      ...productData
     };
-
-    loadProducts();
-  }, [toast]);
-
-  const addProduct = (productData: Product) => {
-    // Le produit est déjà ajouté à la base de données via l'API dans le composant AddPage
-    // Nous mettons simplement à jour l'état local
-    setProducts(prev => [...prev, productData]);
+    setProducts(prev => [...prev, newProduct]);
+    setNextId(prev => prev + 1);
   };
 
-  const deleteProduct = async (id: number) => {
-    try {
-      await apiDeleteProduct(id);
-      setProducts(prev => prev.filter(p => p.id !== id));
-      toast({
-        title: "Succès",
-        description: "Produit supprimé avec succès"
-      });
-    } catch (error) {
-      console.error("Erreur lors de la suppression du produit:", error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de supprimer le produit",
-        variant: "destructive"
-      });
-    }
+  const deleteProduct = (id: number) => {
+    setProducts(prev => prev.filter(p => p.id !== id));
   };
 
   const updateProduct = (updatedProduct: Product) => {
@@ -66,14 +45,6 @@ const Index = () => {
   };
 
   const renderContent = () => {
-    if (isLoading) {
-      return (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
-        </div>
-      );
-    }
-    
     switch (activeTab) {
       case "home":
         return <HomePage products={products} />;

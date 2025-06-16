@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { createProduct } from "@/lib/api";
 
 interface AddPageProps {
   onAddProduct: (product: Omit<Product, 'id'>) => void;
@@ -13,7 +12,6 @@ interface AddPageProps {
 
 const AddPage = ({ onAddProduct }: AddPageProps) => {
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     serialID: "",
     url1: "",
@@ -21,7 +19,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
     emplacement: ""
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     console.log("Form submitted with data:", formData);
@@ -36,45 +34,20 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
       return;
     }
 
-    try {
-      setIsLoading(true);
-      
-      // Préparer les données pour l'API
-      const productData = {
-        serialID: formData.serialID.trim(),
-        url1: formData.url1.trim(),
-        url2: formData.url2.trim(),
-        emplacement: formData.emplacement.trim()
-      };
-      
-      // Envoyer les données à l'API
-      const newProduct = await createProduct(productData);
-      
-      // Mettre à jour l'état local
-      onAddProduct(newProduct);
-      
-      // Réinitialiser le formulaire
-      setFormData({ 
-        serialID: "", 
-        url1: "", 
-        url2: "", 
-        emplacement: "" 
-      });
-      
-      toast({
-        title: "Succès",
-        description: "Produit ajouté avec succès!",
-      });
-    } catch (error) {
-      console.error("Erreur lors de l'ajout du produit:", error);
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de l'ajout du produit",
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    console.log("Validation passed, adding product");
+    onAddProduct({
+      serialID: formData.serialID.trim(),
+      url1: formData.url1.trim(),
+      url2: formData.url2.trim(),
+      emplacement: formData.emplacement.trim()
+    });
+    
+    setFormData({ serialID: "", url1: "", url2: "", emplacement: "" });
+    
+    toast({
+      title: "Succès",
+      description: "Produit ajouté avec succès!",
+    });
   };
 
   const handleChange = (field: keyof typeof formData, value: string) => {
@@ -141,7 +114,6 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               onChange={(e) => handleChange("emplacement", e.target.value)}
               placeholder="Ex: A1-B2, Rayon 3..."
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
-              required
             />
           </div>
 
@@ -151,13 +123,9 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
             </p>
           </div>
 
-          <Button 
-            type="submit" 
-            className="w-full gradient-card text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition-opacity"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full gradient-card text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition-opacity">
             <Plus size={16} className="mr-2" />
-            {isLoading ? "Ajout en cours..." : "Ajouter le produit"}
+            Ajouter le produit
           </Button>
         </form>
       </div>
