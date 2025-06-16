@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Product } from "@/types/Product";
@@ -7,11 +8,12 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
 interface AddPageProps {
-  onAddProduct: (product: Omit<Product, 'id'>) => void;
+  onAddProduct: (product: Omit<Product, 'id'>) => Promise<boolean>;
 }
 
 const AddPage = ({ onAddProduct }: AddPageProps) => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     serialID: "",
     url1: "",
@@ -19,7 +21,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
     emplacement: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     console.log("Form submitted with data:", formData);
@@ -34,20 +36,25 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
       return;
     }
 
+    setIsSubmitting(true);
     console.log("Validation passed, adding product");
-    onAddProduct({
+    
+    const success = await onAddProduct({
       serialID: formData.serialID.trim(),
       url1: formData.url1.trim(),
       url2: formData.url2.trim(),
       emplacement: formData.emplacement.trim()
     });
     
-    setFormData({ serialID: "", url1: "", url2: "", emplacement: "" });
+    if (success) {
+      setFormData({ serialID: "", url1: "", url2: "", emplacement: "" });
+      toast({
+        title: "Succès",
+        description: "Produit ajouté avec succès!",
+      });
+    }
     
-    toast({
-      title: "Succès",
-      description: "Produit ajouté avec succès!",
-    });
+    setIsSubmitting(false);
   };
 
   const handleChange = (field: keyof typeof formData, value: string) => {
@@ -79,6 +86,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               onChange={(e) => handleChange("serialID", e.target.value)}
               placeholder="Ex: P001, SKU123... (optionnel)"
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -91,6 +99,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               onChange={(e) => handleChange("url1", e.target.value)}
               placeholder="https://vinted.fr/..."
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -103,6 +112,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               onChange={(e) => handleChange("url2", e.target.value)}
               placeholder="https://lachiffo.fr/..."
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -114,6 +124,7 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
               onChange={(e) => handleChange("emplacement", e.target.value)}
               placeholder="Ex: A1-B2, Rayon 3..."
               className="border-purple-200 focus:border-purple-400 focus:ring-purple-400"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -123,9 +134,13 @@ const AddPage = ({ onAddProduct }: AddPageProps) => {
             </p>
           </div>
 
-          <Button type="submit" className="w-full gradient-card text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition-opacity">
+          <Button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full gradient-card text-white font-semibold py-3 rounded-xl shadow-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+          >
             <Plus size={16} className="mr-2" />
-            Ajouter le produit
+            {isSubmitting ? "Ajout en cours..." : "Ajouter le produit"}
           </Button>
         </form>
       </div>

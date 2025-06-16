@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 interface EditPageProps {
   products: Product[];
-  onUpdateProduct: (product: Product) => void;
+  onUpdateProduct: (product: Product) => Promise<boolean>;
 }
 
 const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
@@ -19,6 +19,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
   const [searchUrl, setSearchUrl] = useState("");
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [editFormData, setEditFormData] = useState<Product | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const filteredProducts = products.filter(product => 
     product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
@@ -37,15 +38,21 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
     setEditFormData(null);
   };
 
-  const saveChanges = () => {
-    if (editFormData) {
-      onUpdateProduct(editFormData);
-      toast({
-        title: "Produit mis à jour",
-        description: `Le produit ${editFormData.serialID} a été modifié avec succès.`,
-      });
-      setEditingProduct(null);
-      setEditFormData(null);
+  const saveChanges = async () => {
+    if (editFormData && !isUpdating) {
+      setIsUpdating(true);
+      const success = await onUpdateProduct(editFormData);
+      
+      if (success) {
+        toast({
+          title: "Produit mis à jour",
+          description: `Le produit ${editFormData.serialID} a été modifié avec succès.`,
+        });
+        setEditingProduct(null);
+        setEditFormData(null);
+      }
+      
+      setIsUpdating(false);
     }
   };
 
@@ -116,11 +123,20 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-medium">Modification de {product.serialID}</h3>
                     <div className="flex gap-2">
-                      <Button size="sm" onClick={saveChanges}>
+                      <Button 
+                        size="sm" 
+                        onClick={saveChanges}
+                        disabled={isUpdating}
+                      >
                         <Save size={16} className="mr-1" />
-                        Sauvegarder
+                        {isUpdating ? "Sauvegarde..." : "Sauvegarder"}
                       </Button>
-                      <Button size="sm" variant="outline" onClick={cancelEditing}>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={cancelEditing}
+                        disabled={isUpdating}
+                      >
                         <X size={16} className="mr-1" />
                         Annuler
                       </Button>
@@ -133,6 +149,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                       <Input
                         value={editFormData.serialID}
                         onChange={(e) => handleEditChange("serialID", e.target.value)}
+                        disabled={isUpdating}
                       />
                     </div>
                     <div className="space-y-2">
@@ -140,6 +157,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                       <Input
                         value={editFormData.emplacement}
                         onChange={(e) => handleEditChange("emplacement", e.target.value)}
+                        disabled={isUpdating}
                       />
                     </div>
                     <div className="space-y-2">
@@ -148,6 +166,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                         type="url"
                         value={editFormData.url1}
                         onChange={(e) => handleEditChange("url1", e.target.value)}
+                        disabled={isUpdating}
                       />
                     </div>
                     <div className="space-y-2">
@@ -156,6 +175,7 @@ const EditPage = ({ products, onUpdateProduct }: EditPageProps) => {
                         type="url"
                         value={editFormData.url2}
                         onChange={(e) => handleEditChange("url2", e.target.value)}
+                        disabled={isUpdating}
                       />
                     </div>
                   </div>

@@ -18,7 +18,7 @@ import {
 
 interface DeletePageProps {
   products: Product[];
-  onDeleteProduct: (id: number) => void;
+  onDeleteProduct: (id: number) => Promise<boolean>;
 }
 
 const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
@@ -28,6 +28,7 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
   const [searchUrl, setSearchUrl] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const filteredProducts = products.filter(product => 
     product.serialID.toLowerCase().includes(searchSerialID.toLowerCase()) &&
@@ -41,13 +42,19 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
     setDeleteDialogOpen(true);
   };
 
-  const confirmDelete = () => {
-    if (productToDelete) {
-      onDeleteProduct(productToDelete.id);
-      toast({
-        title: "Produit supprimé",
-        description: `Le produit ${productToDelete.serialID} a été supprimé avec succès.`,
-      });
+  const confirmDelete = async () => {
+    if (productToDelete && !isDeleting) {
+      setIsDeleting(true);
+      const success = await onDeleteProduct(productToDelete.id);
+      
+      if (success) {
+        toast({
+          title: "Produit supprimé",
+          description: `Le produit ${productToDelete.serialID} a été supprimé avec succès.`,
+        });
+      }
+      
+      setIsDeleting(false);
       setDeleteDialogOpen(false);
       setProductToDelete(null);
     }
@@ -146,12 +153,13 @@ const DeletePage = ({ products, onDeleteProduct }: DeletePageProps) => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>Annuler</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
+              disabled={isDeleting}
               className="bg-destructive hover:bg-destructive/90"
             >
-              Supprimer
+              {isDeleting ? "Suppression..." : "Supprimer"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

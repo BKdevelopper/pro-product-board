@@ -5,46 +5,21 @@ import HomePage from "@/components/HomePage";
 import AddPage from "@/components/AddPage";
 import DeletePage from "@/components/DeletePage";
 import EditPage from "@/components/EditPage";
-import { Product } from "@/types/Product";
+import { useProducts } from "@/hooks/useProducts";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
-  const [nextId, setNextId] = useState(3); // Counter for auto-incrementing IDs
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: 1,
-      serialID: "P001",
-      url1: "https://vinted.fr/product1",
-      url2: "https://lachiffo.fr/product1",
-      emplacement: "A1-B2"
-    },
-    {
-      id: 2,
-      serialID: "P002",
-      url1: "",
-      url2: "",
-      emplacement: "C3-D4"
-    }
-  ]);
-
-  const addProduct = (productData: Omit<Product, 'id'>) => {
-    const newProduct: Product = {
-      id: nextId,
-      ...productData
-    };
-    setProducts(prev => [...prev, newProduct]);
-    setNextId(prev => prev + 1);
-  };
-
-  const deleteProduct = (id: number) => {
-    setProducts(prev => prev.filter(p => p.id !== id));
-  };
-
-  const updateProduct = (updatedProduct: Product) => {
-    setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
-  };
+  const { products, loading, addProduct, deleteProduct, updateProduct } = useProducts();
 
   const renderContent = () => {
+    if (loading && activeTab === "home") {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <div className="text-purple-600">Chargement des produits...</div>
+        </div>
+      );
+    }
+
     switch (activeTab) {
       case "home":
         return <HomePage products={products} />;
